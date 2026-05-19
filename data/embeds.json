@@ -1,0 +1,16 @@
+{
+    "lore-oficial-1": {
+        "titulo": "",
+        "descripcion": "",
+        "color": 10181046,
+        "campos": [
+            {
+                "name": "📖 ***Lore Oficial Conocido***",
+                "value": "Introducción a Expencior Todo personaje en Expencior *(dependiendo su educación)* puede conocer desde *nada* hasta *totalmente* esta seccion del lore la cual esta a público conocimiento"
+            }
+        ],
+        "imagen": "",
+        "thumbnail": "",
+        "footer": ""
+    }
+}

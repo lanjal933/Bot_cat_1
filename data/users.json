@@ -1,0 +1,417 @@
+{
+    "903398975388942347": {
+        "personajes": {
+            "elsin": {
+                "nombre": "Elsin Terrenos",
+                "clase": "Mago",
+                "nivel": 7,
+                "xp": 0,
+                "blines": 0,
+                "edad": "50",
+                "estatura": "pequeño",
+                "frase": "A LABURAR!",
+                "link": "-",
+                "inventario": [],
+                "Añadidos": []
+            },
+            "elto": {
+                "nombre": "Eltto Dotterreno",
+                "clase": "Clerigo/hechicero",
+                "nivel": 10,
+                "xp": 0,
+                "blines": 0,
+                "edad": "67",
+                "estatura": "1,69",
+                "frase": "Me olvide que iva a decir",
+                "inventario": []
+            }
+        }
+    },
+    "297523134779621378": {
+        "personajes": {
+            "alaric": {
+                "nombre": "Alaric Coleum",
+                "clase": "Guerrero",
+                "nivel": 4,
+                "link": "https://nivel20.com/s/1bdpkzczc",
+                "blines": 6,
+                "edad": "32",
+                "estatura": "1,80",
+                "frase": "idiotas",
+                "inventario": [],
+                "Añadidos": []
+            }
+        }
+    },
+    "151497117184032768": {
+        "personajes": {
+            "zigoto": {
+                "nombre": "Zigoto Experimental Roto Origen Oscuro",
+                "clase": "Artifice",
+                "nivel": 4,
+                "link": "https://nivel20.com/s/18l4ozczc",
+                "blines": 42,
+                "edad": "5",
+                "estatura": "1,5m",
+                "frase": "-",
+                "inventario": [],
+                "Añadidos": []
+            }
+        }
+    },
+    "947173976818483210": {
+        "personajes": {
+            "kaltrayos": {
+                "nombre": "Kaltrayos",
+                "clase": "Barbaro",
+                "nivel": 4,
+                "link": "https://nivel20.com/s/18ffuzczc",
+                "blines": 21,
+                "edad": "43",
+                "estatura": "1,72m",
+                "frase": "-",
+                "inventario": [],
+                "Añadidos": []
+            }
+        }
+    },
+    "874796017508315166": {
+        "personajes": {
+            "pedrole": {
+                "nombre": "Pedrole Brocele",
+                "clase": "Druida",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "20",
+                "estatura": "mediano",
+                "frase": "-",
+                "link": "https://nivel20.com/s/1dd65zczc",
+                "inventario": []
+            }
+        }
+    },
+    "1262850623695487201": {
+        "personajes": {
+            "nyx": {
+                "nombre": "Nyx Veilstride",
+                "clase": "Picaro",
+                "raza": "Liebren",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "23",
+                "estatura": "mediano",
+                "frase": "No necesito que confíes en mí… Solo necesito que no mires a otro lado",
+                "link": "https://nivel20.com/s/1dcudzczc",
+                "inventario": []
+            }
+        }
+    },
+    "414799496170569738": {
+        "personajes": {
+            "jay": {
+                "nombre": "Jay Van Alice",
+                "clase": "Bardo",
+                "raza": "Semielfo",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "23",
+                "estatura": "mediano (1.76)",
+                "frase": "Relajate y acepta el mundo con los brazos abiertos.",
+                "link": "https://nivel20.com/s/1dc36zczc",
+                "inventario": []
+            }
+        }
+    },
+    "750169673240412200": {
+        "personajes": {
+            "draegar": {
+                "nombre": "Draegar Umbraestelar",
+                "clase": "Paladin",
+                "raza": "Draconido",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "30",
+                "estatura": "mediano (1.90)",
+                "frase": "No tengo plata",
+                "link": "https://nivel20.com/s/1dc5ozczc",
+                "inventario": []
+            }
+        }
+    },
+    "847928613739167785": {
+        "personajes": {
+            "ramiris": {
+                "nombre": "Ramiris",
+                "clase": "Druida",
+                "raza": "Hada",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "57",
+                "estatura": "pequeño",
+                "frase": "\"Algún día seré la próxima gran reina de las hadas y los espíritus\"",
+                "link": "https://nivel20.com/s/1dby9zczc",
+                "inventario": []
+            }
+        }
+    },
+    "689482548861992970": {
+        "personajes": {
+            "matt": {
+                "nombre": "Matt Wolftown",
+                "clase": "Hechicero",
+                "raza": "Elfo",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "100",
+                "estatura": "mediano",
+                "frase": "No confío en nadie que use ropa limpia o hable de leyes.",
+                "link": "https://nivel20.com/s/1deirzczc",
+                "inventario": []
+            }
+        }
+    },
+    "504851728202465295": {
+        "personajes": {
+            "draken": {
+                "nombre": "Draken",
+                "clase": "Guerrero",
+                "raza": "Humano",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "24",
+                "estatura": "mediano(1,80)",
+                "frase": "todo mal",
+                "link": "https://nivel20.com/s/1dd7uzczc",
+                "inventario": []
+            }
+        }
+    },
+    "996888734962286683": {
+        "personajes": {
+            "trotanes": {
+                "nombre": "Trotanes Zilzius Do Kofane",
+                "clase": "Bardo",
+                "raza": "Mediano",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "28",
+                "estatura": "Mediano",
+                "frase": "Una cuerda más, hace mas compleja la melodía, Pero la hace mas hermosa.",
+                "link": "https://nivel20.com/s/1d396zczc",
+                "inventario": []
+            }
+        }
+    },
+    "856417630411292692": {
+        "personajes": {
+            "ryu": {
+                "nombre": "Ryu",
+                "clase": "Hechicero",
+                "raza": "Tiefling",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "29",
+                "estatura": "mediano",
+                "frase": "Ayudo a quienes me ayudan, eso es los que nos mantienen vivo",
+                "link": "https://nivel20.com/s/1d8ydzczc",
+                "inventario": []
+            }
+        }
+    },
+    "1215890434912550973": {
+        "personajes": {
+            "hoftal": {
+                "nombre": "Hoftal borter",
+                "clase": "paladín",
+                "raza": "humano",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "28",
+                "estatura": "Mediano",
+                "frase": "-",
+                "link": "https://nivel20.com/s/1de4vzczc",
+                "inventario": []
+            }
+        }
+    },
+    "715998970819903618": {
+        "personajes": {
+            "kaelen": {
+                "nombre": "Kaelen Valthorion",
+                "clase": "Monje",
+                "raza": "Draconido",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "23",
+                "estatura": "Mediano",
+                "frase": "Estoy destinado a más que ser un simple cazarrecompensas, tarde o temprano, terminaré esa maldita profecía...",
+                "link": "https://nivel20.com/s/1de8jzczc",
+                "inventario": []
+            }
+        }
+    },
+    "691088560765403247": {
+        "personajes": {
+            "lars": {
+                "nombre": "Lars",
+                "clase": "Mago",
+                "raza": "Humano",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "35",
+                "estatura": "Mediano",
+                "frase": "La muerte también tiene solución",
+                "link": "https://nivel20.com/s/1d4l8zczc",
+                "inventario": []
+            }
+        }
+    },
+    "1089555303164555294": {
+        "personajes": {
+            "hallgrim": {
+                "nombre": "Hallgrim Voss",
+                "clase": "Bardo",
+                "raza": "Elfo",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "22",
+                "estatura": "Mediano",
+                "frase": "Si vamos a morir, al menos hagámoslo de forma divertida",
+                "link": "https://nivel20.com/s/1da6pzczc",
+                "inventario": []
+            }
+        }
+    },
+    "946016616951451668": {
+        "personajes": {
+            "orion": {
+                "nombre": "Orion Arkenfall",
+                "clase": "Guardian",
+                "raza": "Humano (Alternativo)",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "24",
+                "estatura": "mediano",
+                "frase": "No temo caer… temo no haber protegido lo suficiente.",
+                "link": "https://nivel20.com/s/1dewrzczc",
+                "inventario": []
+            }
+        }
+    },
+    "690363734610149391": {
+        "personajes": {
+            "radh": {
+                "nombre": "Radh Teccan",
+                "clase": "Paladín",
+                "raza": "Yuan-Ti",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "46",
+                "estatura": "Mediano",
+                "frase": "Ninguna oscuridad puede apagar la luz de mi espíritu",
+                "link": "https://nivel20.com/s/1de5izczc",
+                "inventario": []
+            }
+        }
+    },
+    "1500902897808965732": {
+        "personajes": {
+            "juancho": {
+                "nombre": "Gaucho Juancho",
+                "clase": "Pugilista",
+                "raza": "Humano (alternativo)",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "34",
+                "estatura": "mediano",
+                "frase": "Juira bicho, juira",
+                "link": "https://nivel20.com/s/1ddc5zczc",
+                "inventario": []
+            }
+        }
+    },
+    "784840147056984104": {
+        "personajes": {
+            "vedrak": {
+                "nombre": "Vedrak Folgart",
+                "clase": "Paladín",
+                "raza": "Humano",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "33",
+                "estatura": "mediano",
+                "frase": "Por el poder de Tyr!!!",
+                "link": "https://nivel20.com/s/1d8apzczc",
+                "inventario": []
+            }
+        }
+    },
+    "613037435001110549": {
+        "personajes": {
+            "sahir": {
+                "nombre": "Sahir Alshari",
+                "clase": "Guerrero",
+                "raza": "Anomalo",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "23",
+                "estatura": "Mediano",
+                "frase": "La arena ha forjado mi espiritu como la anomalía mi cuerpo...",
+                "link": "https://nivel20.com/s/1d78szczc",
+                "inventario": []
+            }
+        }
+    },
+    "1196184192581640384": {
+        "personajes": {
+            "ares": {
+                "nombre": "Ares Nocturne",
+                "clase": "Picaro",
+                "raza": "Tiefling",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "22",
+                "estatura": "Mediano",
+                "frase": "La oscuridad no es mi refugio... Es mi territorio",
+                "link": "https://nivel20.com/s/1de5dzczc",
+                "inventario": []
+            }
+        }
+    },
+    "929073007123632179": {
+        "personajes": {
+            "thins": {
+                "nombre": "Thina",
+                "clase": "Monje",
+                "raza": "Humano",
+                "nivel": 1,
+                "xp": 0,
+                "blines": 0,
+                "edad": "21",
+                "estatura": "pequeño (1.55)",
+                "frase": "¿Podemos darnos prisa?",
+                "link": "https://nivel20.com/s/1dbpjzczc",
+                "inventario": []
+            }
+        }
+    }
+}

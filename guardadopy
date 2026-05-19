@@ -1,0 +1,766 @@
+"""
+# borrar luego:
+import discord
+from discord.ext import commands
+import requests
+import secret
+import os
+import json
+
+from discord import app_commands
+from datetime import datetime
+# -.-----
+
+import asyncio
+
+from bot import DnDBot
+
+import secret
+
+
+async def main():
+
+    bot = DnDBot()
+
+    await bot.start(secret.TOKEN)
+
+
+if __name__ == "__main__":
+
+    asyncio.run(main())
+
+
+# =====================
+import asyncio
+from bot import DnDBot
+
+async def main():
+
+    bot = DnDBot()
+
+    await bot.start_bot()
+
+if __name__ == "__main__":
+    asyncio.run(main())
+#====================
+
+intents = discord.Intents.default()
+intents.message_content = True
+SESSION_DB = "data/sesiones.json"
+bot = commands.Bot(command_prefix='$', intents=intents)
+async def load_cogs():
+
+    await bot.load_extension("cogs.dnd.sessions")
+
+os.makedirs("data", exist_ok=True)
+
+XP_LEVELS = {
+    1: 0,
+    2: 300,
+    3: 900,
+    4: 2700,
+    5: 6500,
+    6: 14000,
+    7: 23000,
+    8: 34000,
+    9: 48000,
+    10: 64000,
+    11: 85000,
+    12: 100000,
+    13: 120000,
+    14: 140000,
+    15: 165000,
+    16: 195000,
+    17: 225000,
+    18: 265000,
+    19: 305000,
+    20: 355000
+}
+
+DB_FILE = "data/users.json"
+
+@bot.command()
+async def test(ctx, *args):
+    respuesta = ''.join(args)
+    await ctx.send(respuesta)
+
+# --- nivel ---
+def calcular_nivel(xp):
+
+    nivel = 1
+
+    for lvl, req_xp in XP_LEVELS.items():
+
+        if xp >= req_xp:
+            nivel = lvl
+
+    return nivel
+
+# -------- DB SIMPLE --------
+def load_data():
+
+    # Si no existe el archivo
+    if not os.path.exists(DB_FILE):
+
+        with open(DB_FILE, "w", encoding="utf-8") as f:
+            json.dump({}, f, indent=4)
+
+        return {}
+
+    try:
+        with open(DB_FILE, "r", encoding="utf-8") as f:
+
+            data = json.load(f)
+
+            # Si accidentalmente es lista
+            if isinstance(data, list):
+                return {}
+
+            return data
+
+    except json.JSONDecodeError:
+        return {}
+
+    except Exception as e:
+        print("ERROR LOAD_DATA:", e)
+        return {}
+    
+    # gat PJ:
+def get_pj(data, user_id, nick_pj):
+
+    user_id = str(user_id)
+
+    nick_pj = nick_pj.lower()
+
+    print("========== DEBUG GET_PJ ==========")
+    print("USER_ID:", user_id)
+    print("NICK_PJ:", nick_pj)
+    print("DATA:", data)
+
+    usuario = data.get(user_id)
+
+    print("USUARIO:", usuario)
+
+    if not usuario:
+        print("❌ Usuario no encontrado")
+        return None
+
+    personajes = usuario.get("personajes", {})
+
+    print("PERSONAJES:", personajes)
+
+    pj = personajes.get(nick_pj)
+
+    print("PJ ENCONTRADO:", pj)
+
+    return pj
+# =========================
+# EXTRAER IDS
+# =========================
+
+def extraer_ids(texto):
+
+    ids = []
+
+    partes = texto.split()
+
+    for parte in partes:
+
+        if parte.startswith("<@"):
+
+            limpio = (
+                parte
+                .replace("<@", "")
+                .replace("!", "")
+                .replace(">", "")
+            )
+
+            if limpio.isdigit():
+                ids.append(limpio)
+
+    return ids
+# -------- EVENTO READY --------
+@bot.event
+async def on_ready():
+
+    await load_cogs()
+
+    print(f"Conectado como {bot.user}")
+
+    try:
+        synced = await bot.tree.sync()
+
+        print(f"Comandos sincronizados: {len(synced)}")
+
+    except Exception as e:
+        print(e)
+
+# -------- COMANDO -------- 
+# --- Registrar PJ (/registrar_pj) ---
+
+@app_commands.checks.has_role("Staff")
+@bot.tree.command(name="registrar_pj", description="Registrar un nuevo personaje")
+
+@app_commands.describe(
+    usuario="Dueño del personaje",
+    nick_pj="Nick único del personaje",
+    nombre="Nombre del personaje",
+    clase="Clase",
+    nivel="Nivel",
+    edad="Edad",
+    estatura="Estatura",
+    frase="Frase frecuente",
+    link="Link del personaje"
+)
+
+async def registrar_pj(
+    interaction: discord.Interaction,
+    usuario: discord.User,
+    nick_pj: str,
+    nombre: str,
+    clase: str,
+    nivel: int,
+    edad: str,
+    estatura: str,
+    frase: str,
+    link: str
+):
+
+    data = load_data()
+
+    user_id = str(usuario.id)
+
+    # Normalizar nick
+    nick_pj = nick_pj.lower()
+
+    # Crear usuario si no existe
+    if user_id not in data:
+        data[user_id] = {
+            "personajes": {}
+        }
+
+    personajes = data[user_id]["personajes"]
+
+    # Verificar si ya existe
+    if nick_pj in personajes:
+
+        await interaction.response.send_message(
+            f"❌ Ya existe un personaje con el nick `{nick_pj}`",
+            ephemeral=True
+        )
+        return
+
+    # Crear personaje
+    personajes[nick_pj] = {
+
+        "nombre": nombre,
+        "clase": clase,
+        "nivel": nivel,
+
+        "xp": 0,
+        "blines": 0,
+
+        "edad": edad,
+        "estatura": estatura,
+        "frase": frase,
+        "link": link,
+
+        "inventario": [],
+        "Añadidos": []
+    }
+
+    save_data(data)
+
+    await interaction.response.send_message(
+
+        f"✅ PJ **{nombre}** creado correctamente.\n"
+        f"👤 Dueño: {usuario.mention}\n"
+        f"🆔 Nick: `{nick_pj}`"
+
+    )
+
+    print("✅ PERSONAJE REGISTRADO")
+    print(data)
+
+# --- Ver Blines ---
+@bot.tree.command(name="blines", description="Ver tus Blines")
+async def blines(interaction: discord.Interaction):
+
+    data = load_data()
+    nick_pj = str(interaction.user.id)
+    nick_pj = nick_pj.lower()
+    if nick_pj not in data:
+        await interaction.response.send_message(
+            "❌ No tenés personaje registrado.",
+            ephemeral=True
+        )
+        return
+
+    total = sum(
+        pj.get("blines", 0)
+        for pj in data[user_id]["personajes"].values()
+)
+
+    embed = discord.Embed(
+        title="💰 Tus Blines",
+        description=f"Tenés **{blines} Blines**",
+        color=discord.Color.gold()
+    )
+
+# --- Dar Blines ---
+@app_commands.describe(
+    usuario="Jugador",
+    nick_pj="Nick del personaje",
+    cantidad="Cantidad"
+)
+@bot.tree.command(name="dar_blines")
+async def dar_blines(interaction: discord.Interaction, usuario: discord.User, nick_pj: str, cantidad: int):
+    nick_pj = nick_pj.lower()
+    data = load_data()
+
+    user_id = str(usuario.id)
+
+    if user_id not in data:
+        await interaction.response.send_message(
+            "❌ Usuario no encontrado",
+            ephemeral=True
+        )
+        return
+
+    if nick_pj not in data[user_id]["personajes"]:
+        await interaction.response.send_message(
+            "❌ Personaje no encontrado",
+            ephemeral=True
+        )
+        return
+# ===============
+# ver blines
+# ===============
+@bot.tree.command(
+    name="ver_blines",
+    description="Ver blines totales"
+)
+
+async def blines(interaction: discord.Interaction):
+
+    data = load_data()
+
+    user_id = str(interaction.user.id)
+
+    if user_id not in data:
+
+        await interaction.response.send_message(
+            "❌ No tenés personajes.",
+            ephemeral=True
+        )
+        return
+
+    personajes = data[user_id].get("personajes", {})
+
+    total = sum(
+        pj.get("blines", 0)
+        for pj in personajes.values()
+    )
+
+    embed = discord.Embed(
+        title="💰 Tus Blines",
+        description=f"Tenés **{total} Blines**",
+        color=discord.Color.gold()
+    )
+
+    await interaction.response.send_message(embed=embed)
+# ==========
+    
+    pj_group = app_commands.Group(name="pj", description="Comandos de personajes")
+
+pj_group = app_commands.Group(name="pj", description="Comandos de personajes")
+
+bot.tree.add_command(pj_group)
+
+@pj_group.command(name="personajes", description="Ver tus personajes")
+async def personajes(interaction: discord.Interaction):
+
+    data = load_data()
+    nick_pj = str(interaction.user.id)
+    nick_pj = nick_pj.lower()
+    if nick_pj not in data or not data[user_id]["personajes"]:
+        await interaction.response.send_message("❌ No tenés personajes.", ephemeral=True)
+        return
+
+    lista = ""
+    for pid, pj in data[user_id]["personajes"].items():
+        lista += f"🆔 `{pid}` → **{pj['nombre']}** (Nivel {pj['nivel']})\n"
+
+    embed = discord.Embed(
+        title=f"📜 Personajes de {interaction.user.name}",
+        description=lista,
+        color=discord.Color.purple()
+    )
+
+    await interaction.response.send_message(embed=embed, ephemeral=True)
+# ------------------
+# ---PJ ver nuevo---
+# ------------------
+@app_commands.describe(
+    usuario="Dueño del PJ",
+    nick_pj="Nick del personaje"
+)
+
+@pj_group.command(name="ver")
+
+async def ver(
+    interaction: discord.Interaction,
+    usuario: discord.User,
+    nick_pj: str
+):
+
+    data = load_data()
+
+    user_id = str(usuario.id)
+
+    nick_pj = nick_pj.lower()
+
+    pj = get_pj(data, user_id, nick_pj)
+
+    if not pj:
+        await interaction.response.send_message(
+            "❌ PJ no encontrado",
+            ephemeral=True
+        )
+        return
+
+    embed = discord.Embed(
+        title=f"📜 {pj['nombre']}",
+        description=f"Registro de personaje",
+        color=discord.Color.blue()
+    )
+    
+    embed.add_field(
+        name="─────────────────────────",
+        value=" ",
+        inline=False
+    )
+    
+    embed.add_field(
+        name="**────── Informacion ──────**",
+        value=" ",
+        inline=False
+    )
+    embed.add_field(name="📓 *Clase:*", value=pj["clase"])
+    embed.add_field(name="⬆️ *Nivel:*", value=pj["nivel"])
+    embed.add_field(name="✨ *XP:*", value=pj.get("xp", 0))
+    embed.add_field(name="💰 *Blines:*", value=pj.get("blines", 0))
+
+    embed.add_field(
+        name="────────────────────",
+        value=" ",
+        inline=False
+    )
+    embed.add_field(
+        name="**────── otros ──────**",
+        value=" ",
+        inline=False
+    )
+    embed.add_field(name="📏 *Estatura:*", value=pj["estatura"])
+    embed.add_field(name="➡️ *Edad:*", value=pj["edad"])
+    embed.add_field(name="🗣 *Frase:*", value=pj["frase"])
+
+    embed.add_field(
+        name="🔗 Link",
+        value=pj["link"],
+        inline=False
+    )
+
+    await interaction.response.send_message(embed=embed)
+# ---Inventario---
+@bot.tree.command(
+    name="inventario",
+    description="Ver inventario de un personaje"
+)
+
+@app_commands.describe(
+    usuario="Dueño del personaje",
+    nick_pj="Nick del personaje"
+)
+
+async def inventario(
+    interaction: discord.Interaction,
+    usuario: discord.User,
+    nick_pj: str
+):
+
+    data = load_data()
+
+    user_id = str(usuario.id)
+
+    nick_pj = nick_pj.lower()
+
+    pj = get_pj(data, user_id, nick_pj)
+
+    if not pj:
+        await interaction.response.send_message(
+            "❌ PJ no encontrado",
+            ephemeral=True
+        )
+        return
+
+    items = pj.get("inventario", [])
+
+    lista = "\n".join(
+        [f"• {item}" for item in items]
+    ) if items else "(vacío)"
+
+    embed = discord.Embed(
+        title=f"🎒 Inventario de {pj['nombre']}",
+        description=lista,
+        color=discord.Color.dark_gold()
+    )
+
+    await interaction.response.send_message(embed=embed)
+# ---dar item---
+@bot.tree.command(
+    name="dar_item",
+    description="Agregar objeto a un personaje"
+)
+
+@app_commands.describe(
+    usuario="Jugador",
+    nick_pj="Nick del personaje",
+    item="Objeto"
+)
+
+@app_commands.checks.has_role("Staff")
+
+async def dar_item(
+    interaction: discord.Interaction,
+    usuario: discord.User,
+    nick_pj: str,
+    item: str
+):
+
+    data = load_data()
+
+    user_id = str(usuario.id)
+
+    nick_pj = nick_pj.lower()
+
+    pj = get_pj(data, user_id, nick_pj)
+
+    if not pj:
+        await interaction.response.send_message(
+            "❌ PJ no encontrado",
+            ephemeral=True
+        )
+        return
+
+    pj.setdefault("inventario", [])
+
+    pj["inventario"].append(item)
+
+    save_data(data)
+
+    await interaction.response.send_message(
+        f"🎒 Item agregado a `{nick_pj}`"
+    )
+# --- quitar item---
+@bot.tree.command(
+    name="quitar_item",
+    description="Quitar objeto de un personaje"
+)
+
+@app_commands.describe(
+    usuario="Jugador",
+    nick_pj="Nick del personaje",
+    item="Objeto"
+)
+
+@app_commands.checks.has_role("Staff")
+
+async def quitar_item(
+    interaction: discord.Interaction,
+    usuario: discord.User,
+    nick_pj: str,
+    item: str
+):
+
+    data = load_data()
+
+    user_id = str(usuario.id)
+
+    nick_pj = nick_pj.lower()
+
+    pj = get_pj(data, user_id, nick_pj)
+
+    if not pj:
+        await interaction.response.send_message(
+            "❌ PJ no encontrado",
+            ephemeral=True
+        )
+        return
+
+    inventario = pj.get("inventario", [])
+
+    if item not in inventario:
+        await interaction.response.send_message(
+            "❌ Ese item no existe",
+            ephemeral=True
+        )
+        return
+
+    inventario.remove(item)
+
+    save_data(data)
+
+    await interaction.response.send_message(
+        f"🗑 Item eliminado de `{nick_pj}`"
+    )
+    await interaction.response.send_message(f"🗑️ Se quitó **{item}** de `{nick_pj}`")
+
+# ---------------------------------
+# -------------Subir Nivel---------
+# ---------------------------------
+@app_commands.describe(
+    usuario="Jugador",
+    nick_pj="Nick del personaje"
+)
+
+@bot.tree.command(
+    name="subir_nivel",
+    description="Subir manualmente un nivel"
+)
+
+@app_commands.checks.has_role("Staff")
+
+async def subir_nivel(
+    interaction: discord.Interaction,
+    usuario: discord.User,
+    nick_pj: str
+):
+
+    data = load_data()
+
+    user_id = str(usuario.id)
+
+    nick_pj = nick_pj.lower()
+
+    pj = get_pj(data, user_id, nick_pj)
+
+    if not pj:
+        await interaction.response.send_message(
+            "❌ PJ no encontrado",
+            ephemeral=True
+        )
+        return
+
+    nivel_anterior = pj.get("nivel", 1)
+
+    if nivel_anterior >= 20:
+
+        await interaction.response.send_message(
+            "❌ Ya alcanzó el nivel máximo.",
+            ephemeral=True
+        )
+        return
+
+    pj["nivel"] += 1
+
+    save_data(data)
+
+    embed = discord.Embed(
+        title="✨ Subida Manual de Nivel",
+        color=discord.Color.green()
+    )
+
+    embed.add_field(
+        name="Personaje",
+        value=pj["nombre"]
+    )
+
+    embed.add_field(
+        name="Nivel anterior",
+        value=nivel_anterior
+    )
+
+    embed.add_field(
+        name="Nuevo nivel",
+        value=pj["nivel"]
+    )
+
+    await interaction.response.send_message(embed=embed)
+# ================
+# Dar XP
+# ================
+@bot.tree.command(
+    name="sumar_xp",
+    description="Dar experiencia a un personaje"
+)
+
+@app_commands.describe(
+    jugador="Jugador dueño del personaje",
+    nick_pj="Nick del personaje",
+    cantidad="Cantidad de XP"
+)
+
+@app_commands.checks.has_role("Staff")
+
+async def sumar_xp(
+    interaction: discord.Interaction,
+    jugador: discord.Member,
+    nick_pj: str,
+    cantidad: int
+):
+
+    data = load_data()
+
+    user_id = str(jugador.id)
+
+    nick_pj = nick_pj.lower()
+
+    pj = get_pj(data, user_id, nick_pj)
+
+    if not pj:
+        await interaction.response.send_message(
+            "❌ Personaje no encontrado.",
+            ephemeral=True
+        )
+        return
+
+    # Seguridad
+    pj.setdefault("xp", 0)
+    pj.setdefault("nivel", 1)
+
+    nivel_anterior = pj["nivel"]
+
+    # Agregar XP
+    pj["xp"] += cantidad
+
+    # Calcular nuevo nivel
+    nuevo_nivel = calcular_nivel(pj["xp"])
+
+    pj["nivel"] = nuevo_nivel
+
+    save_data(data)
+
+    mensaje = (
+        f"✨ `{nick_pj}` recibió **{cantidad} XP**\n"
+        f"📚 XP total: **{pj['xp']}**"
+    )
+
+    if nuevo_nivel > nivel_anterior:
+
+        mensaje += (
+            f"\n\n🎉 SUBIÓ DE NIVEL\n"
+            f"⬆ {nivel_anterior} ➜ {nuevo_nivel}"
+        )
+
+    await interaction.response.send_message(mensaje)    
+
+# ==========
+# Improtar y crear
+# ==========
+
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+"""
